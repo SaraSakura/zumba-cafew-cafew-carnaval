@@ -13,6 +13,16 @@ function update()
     if (keyboard.pressed("down"))
         player1.decelerate(moveDistance);
 
+
+
+    if (sec < 50)
+        ennemy.accelerate(moveDistance);
+    if (sec > 100)
+        ennemy.decelerate(moveDistance);
+    if (sec == 150)
+        sec = 0;
+    sec++;
     player1.move();
+    ennemy.move();
     controls.update();
 }

@@ -23,11 +23,11 @@ function shoot()
 
     // move bullets
     var moveDistance = 5;
-
     for (var i = 0; i < player1.bullets.length; i++)
     {
-        player1.bullets[i].position.x += moveDistance * Math.cos(player1.bullets[i].angle);
-        player1.bullets[i].position.y += moveDistance * Math.sin(player1.bullets[i].angle);
+        console.log("lala");
+            player1.bullets[i].position.x += moveDistance * Math.cos(player1.bullets[i].angle);
+            player1.bullets[i].position.y += moveDistance * Math.sin(player1.bullets[i].angle);
     }
 
 }
@@ -60,7 +60,8 @@ function player_collision()
     //collision between player and walls
     var x = player1.graphic.position.x + WIDTH / 2;
     var y = player1.graphic.position.y + HEIGHT / 2;
-
+    if ( x < 0 )
+        player1.graphic.position.x -= x;
     if ( x > WIDTH )
         player1.graphic.position.x -= x - WIDTH;
     if ( y < 0 )
@@ -68,7 +69,18 @@ function player_collision()
     if ( y > HEIGHT )
         player1.graphic.position.y -= y - HEIGHT;
 
+    var x2 = ennemy.graphic.position.x + WIDTH / 2;
+    var y2 = ennemy.graphic.position.y + HEIGHT / 2;
+    if ( x2 < 0 )
+        ennemy.graphic.position.x -= x2;
+    if ( x2 > WIDTH )
+        ennemy.graphic.position.x -= x2 - WIDTH;
+    if ( y2 < 0 )
+        ennemy.graphic.position.y -= y2;
+    if ( y > HEIGHT )
+        ennemy.graphic.position.y -= y2 - HEIGHT;
 }
+
 
 function player_falling()
 {
@@ -80,20 +92,24 @@ function player_falling()
     var length = noGround.length;
     var element = null;
 
-    for (var i = 0; i < length; i++) {
+    for (let i = 0; i < length; i++) {
         element = noGround[i];
-
-        var tileX = (element[0]) | 0;
-        var tileY = (element[1]) | 0;
-        var mtileX = (element[0] + sizeOfTileX) | 0;
-        var mtileY = (element[1] + sizeOfTileY) | 0;
+        if (element == null)
+            continue;
+        let tileX = (element[0]) | 0;
+        let tileY = (element[1]) | 0;
+        let mtileX = (element[0] + sizeOfTileX) | 0;
+        let mtileY = (element[1] + sizeOfTileY) | 0;
 
         if ((x > tileX)
             && (x < mtileX)
             && (y > tileY) 
             && (y < mtileY))
         {
-           player1.dead();
+            if (player1.life > 0)
+                player1.life -= 1;
+            else
+                player1.dead();
         }
     }
 
